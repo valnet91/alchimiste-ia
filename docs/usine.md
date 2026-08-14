@@ -5,8 +5,8 @@ Notice interne. Le README public du dépôt est généré à la **racine**
 
 Compte public : [valnet91](https://github.com/valnet91). Pas de second user.
 
-`contracts/` est la source de vérité. `README.md`, `output/llms.txt` et
-`output/controles/` sont dérivés.
+`contracts/` est la source de vérité. `README.md`, `output/llms.txt`,
+`output/controles/` et `output/cards/` sont dérivés.
 
 ## Chaîne
 
@@ -21,8 +21,14 @@ $pythonProjet = 'D:\miniconda4\envs\Richou\python.exe'
 Set-Location 'D:\miniconda5\Richou\Projets\_Archives\MiniProjet\Alchimiste_Github'
 & $pythonProjet tools\render_github.py --check
 & $pythonProjet tools\render_github.py --write
+& $pythonProjet tools\render_cards.py --write
+& $pythonProjet tools\render_cards.py --write --audio
 & $pythonProjet -m unittest discover -s tests -v
 ```
+
+Cartes : `contracts/cards.csv` → `output/cards/*.webp` (+ `.mp3` si `--audio`).
+EXIF/XMP via `exiftool`. GPS seulement si `gps_lat` **et** `gps_lon` sont remplis.
+Voix : `henri`, `denise`, ou `duo` (Henri puis Denise, une ligne chacun).
 
 ## Dates
 
