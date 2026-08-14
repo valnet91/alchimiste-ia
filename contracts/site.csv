@@ -1,0 +1,15 @@
+# Source de verite — editer ce fichier, puis python tools/render_github.py --write
+# LF, UTF-8, quote all, separateur point-virgule. a = champ vide.
+"schema_version";"key";"value"
+"1";"canonical";"https://alchimiste-ia.com"
+"1";"site_url";"https://alchimiste-ia.com/"
+"1";"scanner_url";"https://aiready.alchimiste-ia.com/index.html"
+"1";"consultant_url";"https://alchimiste-ia.com/consultant-ia/"
+"1";"github_user";"valnet91"
+"1";"github_profile";"https://github.com/valnet91"
+"1";"author";"Jean-Jacques Valognes"
+"1";"publisher";"Alchimiste IA"
+"1";"rna";"W912007379"
+"1";"contact";"contact@alchimiste-ia.com"
+"1";"title";"Alchimiste IA"
+"1";"tagline";"Architecture GEO, SEO technique et visibilité IA fondées sur des preuves vérifiables."
