@@ -41,8 +41,11 @@ BANNER = "<!-- GENERE depuis contracts/*.csv par tools/render_github.py -- NE PA
 ROOT = Path(__file__).resolve().parent.parent
 SITE_PATH = ROOT / "contracts" / "site.csv"
 ENTRIES_PATH = ROOT / "contracts" / "entries.csv"
+README_PATH = ROOT / "README.md"
 OUTPUT_DIR = ROOT / "output"
 CONTROLES_DIR = OUTPUT_DIR / "controles"
+LLMS_PATH = OUTPUT_DIR / "llms.txt"
+LEGACY_README = OUTPUT_DIR / "README.md"
 
 
 class PipelineError(Exception):
@@ -316,9 +319,12 @@ def render_all(check: bool) -> int:
     readme = render_readme(site, entries)
     llms = render_llms(site, entries)
     states = [
-        f"readme={compare_or_write(OUTPUT_DIR / 'README.md', readme, check)}",
-        f"llms={compare_or_write(OUTPUT_DIR / 'llms.txt', llms, check)}",
+        f"readme={compare_or_write(README_PATH, readme, check)}",
+        f"llms={compare_or_write(LLMS_PATH, llms, check)}",
     ]
+    if LEGACY_README.exists() and not check:
+        LEGACY_README.unlink()
+        states.append("legacy_output_readme=removed")
     for entry in entries:
         if entry["categorie"] != "controles-indispensables":
             continue

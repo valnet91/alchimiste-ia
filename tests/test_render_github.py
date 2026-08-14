@@ -38,6 +38,7 @@ class RenderGithubTests(unittest.TestCase):
         self.assertIn("https://aiready.alchimiste-ia.com/index.html", first)
         self.assertIn("https://github.com/valnet91", first)
         self.assertTrue(first.startswith("<!-- GENERE"))
+        self.assertEqual(pipeline.README_PATH, ROOT / "README.md")
 
     def test_no_backdated_git_author(self) -> None:
         source = (ROOT / "tools" / "render_github.py").read_text(encoding="utf-8")
