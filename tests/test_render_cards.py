@@ -41,6 +41,23 @@ class RenderCardsTests(unittest.TestCase):
         self.assertEqual(cards.VOICES["denise"], "fr-FR-DeniseNeural")
         self.assertNotIn("henriette", cards.VOICES)
 
+    def test_demo_page_lists_cards_and_players(self) -> None:
+        site = cards.site_map()
+        rows = cards.read_rows(cards.CARDS_PATH, cards.CARDS_HEADER)
+        for row in rows:
+            stem = cards.card_stem(row)
+            row["webp_name"] = f"{stem}.webp"
+            row["audio_name"] = cards.expected_audio_name(stem, row["voix"])
+        page = cards.render_demo_html(site, rows)
+        self.assertIn("<!DOCTYPE html>", page)
+        self.assertIn('lang="fr"', page)
+        for row in rows:
+            self.assertIn(row["id"] + "-audio", page)
+            self.assertIn(row["webp_name"], page)
+        self.assertIn("Écouter Henri", page)
+        self.assertIn("Écouter Denise", page)
+        self.assertIn("Écouter Henri et Denise", page)
+
     def test_duo_alternates_henri_then_denise(self) -> None:
         row = {
             "titre": "Un",

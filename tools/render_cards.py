@@ -7,6 +7,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import html
 import os
 import re
 import shutil
@@ -323,6 +324,111 @@ def spoken_text(row: dict[str, str]) -> str:
     return ". ".join(spoken_lines(row))
 
 
+def expected_audio_name(stem: str, voix: str) -> str:
+    if empty(voix):
+        return ""
+    suffix = DUO if voix == DUO else voix
+    return f"{stem}_{suffix}.mp3"
+
+
+def voice_label(voix: str) -> str:
+    return {"henri": "Henri", "denise": "Denise", DUO: "Henri et Denise"}.get(voix, voix)
+
+
+def render_demo_html(site: dict[str, str], cards: list[dict[str, str]]) -> str:
+    items: list[str] = []
+    for card in cards:
+        transcript = html.escape(" ".join(spoken_lines(card)))
+        titre = html.escape(card["titre"])
+        alt = html.escape(card["alt"] if not empty(card["alt"]) else card["titre"])
+        speaker = html.escape(voice_label(card["voix"]))
+        audio = html.escape(card["audio_name"])
+        webp = html.escape(card["webp_name"])
+        button = ""
+        player = ""
+        if audio:
+            button = (
+                f'<button type="button" data-audio="{html.escape(card["id"])}-audio">'
+                f"Écouter {speaker}</button>"
+            )
+            player = (
+                f'<audio id="{html.escape(card["id"])}-audio" preload="none" src="{audio}">'
+                f"</audio>"
+            )
+        items.append(
+            f"""<article class="card fond-{html.escape(card["fond"])}">
+  <img src="{webp}" width="1200" height="630" alt="{alt}">
+  <div class="copy">
+    <p class="voice">{speaker}</p>
+    <h2>{titre}</h2>
+    <p class="transcript">{transcript}</p>
+    {button}
+    {player}
+  </div>
+</article>"""
+        )
+    body = "\n".join(items)
+    title = html.escape(site.get("title", "Alchimiste IA"))
+    return f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title} — cartes parlantes</title>
+  <style>
+    :root {{ color-scheme: dark; --ink: #f5f0e6; --paper: #0a0a0a; --gold: #d6a545; --line: #2a2a2a; }}
+    * {{ box-sizing: border-box; }}
+    body {{ margin: 0; font: 1rem/1.5 Segoe UI, sans-serif; color: var(--ink); background: var(--paper); }}
+    header, footer {{ width: min(1100px, calc(100% - 2rem)); margin: 0 auto; padding: 1.5rem 0; }}
+    h1 {{ margin: 0 0 .4rem; font-size: 1.6rem; }}
+    header p, footer p {{ margin: 0; color: #b8b0a2; }}
+    main {{ width: min(1100px, calc(100% - 2rem)); margin: 0 auto 3rem; display: grid; gap: 1.5rem; }}
+    .card {{ display: grid; gap: 1rem; padding: 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #141414; }}
+    .card img {{ width: 100%; height: auto; border-radius: .6rem; }}
+    .voice {{ margin: 0 0 .3rem; color: var(--gold); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }}
+    h2 {{ margin: 0 0 .5rem; font-size: 1.15rem; }}
+    .transcript {{ margin: 0 0 1rem; }}
+    button {{ min-height: 2.75rem; padding: .6rem 1rem; border: 0; border-radius: 999px; background: var(--gold); color: #14221f; font-weight: 700; cursor: pointer; }}
+    button[aria-pressed="true"] {{ background: #f5f0e6; }}
+    a {{ color: var(--gold); }}
+    @media (min-width: 800px) {{ .card {{ grid-template-columns: 1.3fr .7fr; align-items: center; }} }}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{title} — cartes parlantes</h1>
+    <p>Même texte que la carte. Un clic : Henri, Denise, ou le duo.</p>
+  </header>
+  <main>
+{body}
+  </main>
+  <footer>
+    <p><a href="{html.escape(site.get("site_url", "https://alchimiste-ia.com/"))}">{html.escape(site.get("canonical", "https://alchimiste-ia.com"))}</a>
+    · page générée depuis contracts/cards.csv</p>
+  </footer>
+  <script>
+    const buttons = document.querySelectorAll("button[data-audio]");
+    const stopAll = (except) => {{
+      document.querySelectorAll("audio").forEach((audio) => {{
+        if (audio !== except) {{ audio.pause(); audio.currentTime = 0; }}
+      }});
+      buttons.forEach((button) => button.setAttribute("aria-pressed", "false"));
+    }};
+    buttons.forEach((button) => {{
+      const audio = document.getElementById(button.getAttribute("data-audio"));
+      if (!audio) return;
+      button.addEventListener("click", () => {{
+        if (audio.paused) {{ stopAll(audio); audio.play(); button.setAttribute("aria-pressed", "true"); }}
+        else {{ audio.pause(); button.setAttribute("aria-pressed", "false"); }}
+      }});
+      audio.addEventListener("ended", () => button.setAttribute("aria-pressed", "false"));
+    }});
+  </script>
+</body>
+</html>
+"""
+
+
 def duo_turns(row: dict[str, str]) -> list[tuple[str, str]]:
     order = ("henri", "denise")
     return [(order[index % 2], line) for index, line in enumerate(spoken_lines(row))]
@@ -382,6 +488,7 @@ def render_all(check: bool, with_audio: bool) -> int:
     site = site_map()
     rows = read_rows(CARDS_PATH, CARDS_HEADER)
     states: list[str] = []
+    demo_cards: list[dict[str, str]] = []
     manifest: list[list[str]] = [["id", "stem", "webp", "audio", "voix"]]
     for row in rows:
         if row["state"] != "source":
@@ -408,15 +515,14 @@ def render_all(check: bool, with_audio: bool) -> int:
             buffer_path.replace(webp_path)
             write_metadata(webp_path, row, site)
             states.append(f"{stem}=updated")
-        audio_name = ""
-        if with_audio and not empty(row["voix"]):
-            if row["voix"] != DUO and row["voix"] not in VOICES:
-                fail("VOIX", CARDS_PATH, int(row["__line__"]), row["voix"])
-            if check:
-                suffix = "duo" if row["voix"] == DUO else row["voix"]
-                audio_name = f"{stem}_{suffix}.mp3"
-            else:
-                audio_name = render_audio(row, stem)
+        if not empty(row["voix"]) and row["voix"] != DUO and row["voix"] not in VOICES:
+            fail("VOIX", CARDS_PATH, int(row["__line__"]), row["voix"])
+        audio_name = expected_audio_name(stem, row["voix"])
+        if with_audio and audio_name and not check:
+            audio_name = render_audio(row, stem)
+        row["webp_name"] = webp_path.name
+        row["audio_name"] = audio_name
+        demo_cards.append(row)
         manifest.append([row["id"], stem, webp_path.name, audio_name, row["voix"]])
         del raw
 
@@ -428,6 +534,8 @@ def render_all(check: bool, with_audio: bool) -> int:
     writer.writerows(manifest)
     payload = ("\n".join(body) + "\n" + buf.getvalue()).encode("utf-8")
     states.append(f"manifest={compare_or_write(OUTPUT_DIR / 'manifest.csv', payload, check)}")
+    demo = render_demo_html(site, demo_cards)
+    states.append(f"demo={compare_or_write(OUTPUT_DIR / 'index.html', demo.encode('utf-8'), check)}")
     print("OK|CARDS|" + "|".join(states))
     return 0
 

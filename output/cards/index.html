@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alchimiste IA — cartes parlantes</title>
+  <style>
+    :root { color-scheme: dark; --ink: #f5f0e6; --paper: #0a0a0a; --gold: #d6a545; --line: #2a2a2a; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 1rem/1.5 Segoe UI, sans-serif; color: var(--ink); background: var(--paper); }
+    header, footer { width: min(1100px, calc(100% - 2rem)); margin: 0 auto; padding: 1.5rem 0; }
+    h1 { margin: 0 0 .4rem; font-size: 1.6rem; }
+    header p, footer p { margin: 0; color: #b8b0a2; }
+    main { width: min(1100px, calc(100% - 2rem)); margin: 0 auto 3rem; display: grid; gap: 1.5rem; }
+    .card { display: grid; gap: 1rem; padding: 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #141414; }
+    .card img { width: 100%; height: auto; border-radius: .6rem; }
+    .voice { margin: 0 0 .3rem; color: var(--gold); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
+    h2 { margin: 0 0 .5rem; font-size: 1.15rem; }
+    .transcript { margin: 0 0 1rem; }
+    button { min-height: 2.75rem; padding: .6rem 1rem; border: 0; border-radius: 999px; background: var(--gold); color: #14221f; font-weight: 700; cursor: pointer; }
+    button[aria-pressed="true"] { background: #f5f0e6; }
+    a { color: var(--gold); }
+    @media (min-width: 800px) { .card { grid-template-columns: 1.3fr .7fr; align-items: center; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Alchimiste IA — cartes parlantes</h1>
+    <p>Même texte que la carte. Un clic : Henri, Denise, ou le duo.</p>
+  </header>
+  <main>
+<article class="card fond-cobalt">
+  <img src="2026-08-15_intro_scanner-ai-ready_fr.webp" width="1200" height="630" alt="Carte cobalt du scanner AI-READY Alchimiste IA.">
+  <div class="copy">
+    <p class="voice">Henri</p>
+    <h2>Compris avant d&#x27;être cité.</h2>
+    <p class="transcript">Compris avant d&#x27;être cité. Scanner AI-READY. Architecture AI-First. alchimiste-ia.com</p>
+    <button type="button" data-audio="card-scanner-audio">Écouter Henri</button>
+    <audio id="card-scanner-audio" preload="none" src="2026-08-15_intro_scanner-ai-ready_fr_henri.mp3"></audio>
+  </div>
+</article>
+<article class="card fond-noir">
+  <img src="2026-08-15_controles-indispensables_controle-01-domaine_fr.webp" width="1200" height="630" alt="Carte noire du contrôle domaine Alchimiste IA.">
+  <div class="copy">
+    <p class="voice">Denise</p>
+    <h2>Le domaine n&#x27;est pas lancé parce qu&#x27;il répond.</h2>
+    <p class="transcript">Le domaine n&#x27;est pas lancé parce qu&#x27;il répond. Propriété, marque, souveraineté. Contrôle 01 — P0</p>
+    <button type="button" data-audio="card-domaine-audio">Écouter Denise</button>
+    <audio id="card-domaine-audio" preload="none" src="2026-08-15_controles-indispensables_controle-01-domaine_fr_denise.mp3"></audio>
+  </div>
+</article>
+<article class="card fond-cramoisi">
+  <img src="2026-08-15_controles-indispensables_controle-07-geo_fr.webp" width="1200" height="630" alt="Carte cramoisie du contrôle GEO Alchimiste IA.">
+  <div class="copy">
+    <p class="voice">Henri</p>
+    <h2>L&#x27;agent lit des faits, pas une réputation.</h2>
+    <p class="transcript">L&#x27;agent lit des faits, pas une réputation. GEO, entités, sources, dates. Contrôle 07 — P1</p>
+    <button type="button" data-audio="card-geo-audio">Écouter Henri</button>
+    <audio id="card-geo-audio" preload="none" src="2026-08-15_controles-indispensables_controle-07-geo_fr_henri.mp3"></audio>
+  </div>
+</article>
+<article class="card fond-blanc">
+  <img src="2026-08-15_controles-indispensables_controle-08-voix_fr.webp" width="1200" height="630" alt="Carte ivoire voix Henri et Denise Alchimiste IA.">
+  <div class="copy">
+    <p class="voice">Henri et Denise</p>
+    <h2>Le texte se lit. La voix le dicte.</h2>
+    <p class="transcript">Le texte se lit. La voix le dicte. Henri et Denise, à côté du paragraphe. Accessibilité et HCI — P1</p>
+    <button type="button" data-audio="card-a11y-audio">Écouter Henri et Denise</button>
+    <audio id="card-a11y-audio" preload="none" src="2026-08-15_controles-indispensables_controle-08-voix_fr_duo.mp3"></audio>
+  </div>
+</article>
+  </main>
+  <footer>
+    <p><a href="https://alchimiste-ia.com/">https://alchimiste-ia.com</a>
+    · page générée depuis contracts/cards.csv</p>
+  </footer>
+  <script>
+    const buttons = document.querySelectorAll("button[data-audio]");
+    const stopAll = (except) => {
+      document.querySelectorAll("audio").forEach((audio) => {
+        if (audio !== except) { audio.pause(); audio.currentTime = 0; }
+      });
+      buttons.forEach((button) => button.setAttribute("aria-pressed", "false"));
+    };
+    buttons.forEach((button) => {
+      const audio = document.getElementById(button.getAttribute("data-audio"));
+      if (!audio) return;
+      button.addEventListener("click", () => {
+        if (audio.paused) { stopAll(audio); audio.play(); button.setAttribute("aria-pressed", "true"); }
+        else { audio.pause(); button.setAttribute("aria-pressed", "false"); }
+      });
+      audio.addEventListener("ended", () => button.setAttribute("aria-pressed", "false"));
+    });
+  </script>
+</body>
+</html>

@@ -26,7 +26,10 @@ Set-Location 'D:\miniconda5\Richou\Projets\_Archives\MiniProjet\Alchimiste_Githu
 & $pythonProjet -m unittest discover -s tests -v
 ```
 
-Cartes : `contracts/cards.csv` → `output/cards/*.webp` (+ `.mp3` si `--audio`).
+Cartes : `contracts/cards.csv` → `output/cards/*.webp` (+ `.mp3` si `--audio`)
+et `output/cards/index.html` (micro-page : image + bouton d’écoute).
+Pour la démo en ligne : GitHub Pages, source `main`, dossier `/` ;
+URL : `https://valnet91.github.io/alchimiste-ia/output/cards/`.
 EXIF/XMP via `exiftool`. GPS seulement si `gps_lat` **et** `gps_lon` sont remplis.
 Voix : `henri`, `denise`, ou `duo` (Henri puis Denise, une ligne chacun).
 
