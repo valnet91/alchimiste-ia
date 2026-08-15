@@ -16,7 +16,9 @@ import render_cards as cards  # noqa: E402
 class RenderCardsTests(unittest.TestCase):
     def test_contract_and_naming(self) -> None:
         rows = cards.read_rows(cards.CARDS_PATH, cards.CARDS_HEADER)
-        self.assertGreaterEqual(len(rows), 4)
+        self.assertGreaterEqual(len(rows), 11)
+        controles = [row for row in rows if row["categorie"] == "controles-indispensables"]
+        self.assertEqual(len(controles), 10)
         stems = {cards.card_stem(row) for row in rows}
         self.assertEqual(len(stems), len(rows))
         first = rows[0]
