@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: Si vous utilisez ce référentiel, citez-le comme ci-dessous.
+type: software
+title: "Alchimiste IA — 10 contrôles AI-READY / AI-First"
+abstract: "Référentiel public de contrôles pour qu'un site soit lisible, vérifiable et citable par les moteurs et les agents."
+authors:
+  - family-names: Valognes
+    given-names: Jean-Jacques
+repository-code: "https://github.com/valnet91/alchimiste-ia"
+url: "https://alchimiste-ia.com"
+license: CC-BY-ND-4.0
+date-released: "2026-08-15"
+version: "1.0.0-controles"
+keywords:
+  - GEO
+  - SEO
+  - AI-READY
+  - llms.txt

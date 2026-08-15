@@ -59,3 +59,4 @@ Je mets en place : surveillance du domaine / DNS / certificat, tests synthétiqu
 - Éditeur: Jean-Jacques Valognes
 - Contact: contact@alchimiste-ia.com
 - RNA: W912007379
+- Licence: CC BY-ND 4.0 (https://creativecommons.org/licenses/by-nd/4.0/)

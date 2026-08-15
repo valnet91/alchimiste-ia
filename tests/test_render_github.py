@@ -38,6 +38,7 @@ class RenderGithubTests(unittest.TestCase):
         self.assertIn("https://aiready.alchimiste-ia.com/index.html", first)
         self.assertIn("https://github.com/valnet91/alchimiste-ia", first)
         self.assertIn("https://valnet91.github.io/alchimiste-ia/output/cards/", first)
+        self.assertIn("https://creativecommons.org/licenses/by-nd/4.0/", first)
         self.assertTrue(first.startswith("<!-- GENERE"))
         self.assertEqual(pipeline.README_PATH, ROOT / "README.md")
 

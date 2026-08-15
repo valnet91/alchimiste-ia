@@ -20,6 +20,7 @@ rna: W912007379
 - Consultant : [https://alchimiste-ia.com/consultant-ia/](https://alchimiste-ia.com/consultant-ia/)
 - Cartes parlantes : [https://valnet91.github.io/alchimiste-ia/output/cards/](https://valnet91.github.io/alchimiste-ia/output/cards/)
 - Dépôt : [https://github.com/valnet91/alchimiste-ia](https://github.com/valnet91/alchimiste-ia)
+- Licence : [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) — citation obligatoire, pas d'œuvre dérivée. Voir [LICENSE](LICENSE) et [CITATION.cff](CITATION.cff).
 
 ## Sommaire
 

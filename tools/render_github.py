@@ -102,6 +102,8 @@ def site_map(rows: list[dict[str, str]]) -> dict[str, str]:
         "contact",
         "title",
         "tagline",
+        "license",
+        "license_url",
     )
     for key in required:
         if key not in values or not values[key]:
@@ -211,6 +213,7 @@ def render_readme(site: dict[str, str], entries: list[dict[str, str]]) -> str:
         f"- Consultant : [{site['consultant_url']}]({site['consultant_url']})",
         f"- Cartes parlantes : [{site['pages_url']}]({site['pages_url']})",
         f"- Dépôt : [{site['github_repo']}]({site['github_repo']})",
+        f"- Licence : [{site['license']}]({site['license_url']}) — citation obligatoire, pas d'œuvre dérivée. Voir [LICENSE](LICENSE) et [CITATION.cff](CITATION.cff).",
         "",
         "## Sommaire",
         "",
@@ -272,6 +275,7 @@ def render_llms(site: dict[str, str], entries: list[dict[str, str]]) -> str:
             f"- Éditeur: {site['author']}",
             f"- Contact: {site['contact']}",
             f"- RNA: {site['rna']}",
+            f"- Licence: {site['license']} ({site['license_url']})",
             "",
         ]
     )
