@@ -5,8 +5,8 @@ Notice interne. Le README public du dépôt est généré à la **racine**
 
 Compte public : [valnet91](https://github.com/valnet91). Pas de second user.
 
-`contracts/` est la source de vérité. `README.md`, `output/llms.txt`,
-`output/controles/` et `output/cards/` sont dérivés.
+`contracts/` est la source de vérité. `README.md`, `llms.txt` (racine),
+`output/llms.txt`, `output/controles/` et `output/cards/` sont dérivés.
 
 ## Chaîne
 

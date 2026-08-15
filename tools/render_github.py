@@ -45,6 +45,7 @@ README_PATH = ROOT / "README.md"
 OUTPUT_DIR = ROOT / "output"
 CONTROLES_DIR = OUTPUT_DIR / "controles"
 LLMS_PATH = OUTPUT_DIR / "llms.txt"
+ROOT_LLMS_PATH = ROOT / "llms.txt"
 LEGACY_README = OUTPUT_DIR / "README.md"
 
 
@@ -331,6 +332,7 @@ def render_all(check: bool) -> int:
     states = [
         f"readme={compare_or_write(README_PATH, readme, check)}",
         f"llms={compare_or_write(LLMS_PATH, llms, check)}",
+        f"llms_root={compare_or_write(ROOT_LLMS_PATH, llms, check)}",
     ]
     if LEGACY_README.exists() and not check:
         LEGACY_README.unlink()

@@ -14,3 +14,5 @@ Ou en CLI, si `gh` est connecté en valnet91 :
 ```powershell
 gh repo edit valnet91/alchimiste-ia --description "Référentiel public AI-READY / AI-First : 10 contrôles, cartes parlantes, GEO." --homepage "https://alchimiste-ia.com" --add-topic geo --add-topic seo --add-topic ai --add-topic llms-txt --add-topic france
 ```
+
+Profil GitHub : remplacer `README.md` du dépôt [valnet91/valnet91](https://github.com/valnet91/valnet91) par `docs/profile-readme.md`.

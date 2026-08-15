@@ -41,6 +41,7 @@ class RenderGithubTests(unittest.TestCase):
         self.assertIn("https://creativecommons.org/licenses/by-nd/4.0/", first)
         self.assertTrue(first.startswith("<!-- GENERE"))
         self.assertEqual(pipeline.README_PATH, ROOT / "README.md")
+        self.assertEqual(pipeline.ROOT_LLMS_PATH, ROOT / "llms.txt")
 
     def test_no_backdated_git_author(self) -> None:
         source = (ROOT / "tools" / "render_github.py").read_text(encoding="utf-8")
