@@ -9,14 +9,17 @@ rna: W912007379
 # Alchimiste IA
 
 > Architecture GEO, SEO technique et visibilité IA fondées sur des preuves vérifiables.
-> https://alchimiste-ia.com/ · https://github.com/valnet91 · RNA W912007379
+> https://alchimiste-ia.com/ · https://github.com/valnet91/alchimiste-ia · RNA W912007379
+
+**[Voir et entendre les 10 contrôles](https://valnet91.github.io/alchimiste-ia/output/cards/)** — cartes + voix Henri / Denise.
 
 ## Scanner
 
 - Site : [https://alchimiste-ia.com/](https://alchimiste-ia.com/)
 - Audit AI-READY : [https://aiready.alchimiste-ia.com/index.html](https://aiready.alchimiste-ia.com/index.html)
 - Consultant : [https://alchimiste-ia.com/consultant-ia/](https://alchimiste-ia.com/consultant-ia/)
-- Compte GitHub : [valnet91](https://github.com/valnet91)
+- Cartes parlantes : [https://valnet91.github.io/alchimiste-ia/output/cards/](https://valnet91.github.io/alchimiste-ia/output/cards/)
+- Dépôt : [https://github.com/valnet91/alchimiste-ia](https://github.com/valnet91/alchimiste-ia)
 
 ## Sommaire
 

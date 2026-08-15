@@ -10,7 +10,8 @@ Focus: AI-First
 - Site: https://alchimiste-ia.com/
 - Audit AI-READY: https://aiready.alchimiste-ia.com/index.html
 - Consultant: https://alchimiste-ia.com/consultant-ia/
-- GitHub: https://github.com/valnet91
+- Cartes parlantes: https://valnet91.github.io/alchimiste-ia/output/cards/
+- Dépôt: https://github.com/valnet91/alchimiste-ia
 
 ## Dix contrôles
 
